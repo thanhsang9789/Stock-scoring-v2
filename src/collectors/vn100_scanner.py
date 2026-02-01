@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from vnstock import Listing, Quote
 import logging
+import os
 
 class VN100LiquidityScanner:
     """
@@ -21,6 +22,7 @@ class VN100LiquidityScanner:
         """
         self.config = config
         self.logger = logging.getLogger(__name__)
+        self.source = os.getenv('VNSTOCK_SOURCE', 'VCI')
         self.vn100_constituents = []
         self.liquidity_data = pd.DataFrame()
     
@@ -33,7 +35,7 @@ class VN100LiquidityScanner:
         """
         try:
             # v3.4.x API way
-            l = Listing(source='VCI')
+            l = Listing(source=self.source, show_log=False)
             tickers = l.symbols_by_group('VN100').tolist()
             if tickers:
                 self.logger.info(f"Found {len(tickers)} stocks in VN100 group")
@@ -82,7 +84,7 @@ class VN100LiquidityScanner:
         """
         try:
             # v3.4.x API way
-            q = Quote(symbol=ticker, source='VCI')
+            q = Quote(symbol=ticker, source=self.source, show_log=False)
             df = q.history(count_back=lookback_days + 5, interval='1D')
             
             # Ensure we have data

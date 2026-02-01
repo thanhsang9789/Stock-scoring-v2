@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from vnstock import Listing, Quote, Trading, Company
 import logging
+import os
 
 class VNStockCollector:
     """
@@ -20,7 +21,7 @@ class VNStockCollector:
         """
         self.config = config
         self.logger = logging.getLogger(__name__)
-        self.source = config.get('source', 'VCI')
+        self.source = os.getenv('VNSTOCK_SOURCE', config.get('source', 'VCI'))
     
     def collect(self, ticker: str, days_back: int = 30) -> Dict:
         """
@@ -42,7 +43,7 @@ class VNStockCollector:
         
         # 1. Get OHLCV Data
         try:
-            q = Quote(symbol=ticker, source=self.source)
+            q = Quote(symbol=ticker, source=self.source, show_log=False)
             ohlcv_df = q.history(count_back=days_back + 10, interval='1D')
             
             if ohlcv_df is not None and not ohlcv_df.empty:
@@ -65,7 +66,7 @@ class VNStockCollector:
         try:
             # v3.4.x: financial_flow is not available. 
             # We try to get foreign data from company trading stats if available
-            c = Company(symbol=ticker, source=self.source)
+            c = Company(symbol=ticker, source=self.source, show_log=False)
             stats = c.trading_stats()
             
             # Note: v3.4.x might not provide historical daily flows for Prop/Inst easily via open API

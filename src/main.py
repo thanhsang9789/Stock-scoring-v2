@@ -5,6 +5,13 @@ import sys
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+# Force UTF-8 encoding for standard output and error on Windows
+if sys.platform == 'win32':
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')
+    if hasattr(sys.stderr, 'reconfigure'):
+        sys.stderr.reconfigure(encoding='utf-8')
+
 from src.collectors.vn100_scanner import VN100LiquidityScanner
 from src.collectors.vnstock_collector import VNStockCollector
 from src.signals.avg_vol_ratio import AvgVolRatioCalculator
@@ -22,8 +29,21 @@ from src.utils.models import Stock, ReportData
 def main():
     # 1. Setup
     logger = setup_logger()
+    
+    # Register API key if provided in .env (and not the placeholder)
+    api_key = os.getenv('VNSTOCK_API_KEY', '').strip()
+    if api_key and not api_key.startswith('your_api_key'):
+        try:
+            from vnstock import change_api_key
+            change_api_key(api_key)
+            logger.info("VNStock API key registered successfully.")
+        except Exception as e:
+            logger.warning(f"Failed to register API key: {e}")
+
     try:
         config = load_config('config/config.yaml')
+        # Ensure report directory exists
+        os.makedirs(config['report'].get('output_dir', './reports'), exist_ok=True)
     except Exception as e:
         logger.error(f"Failed to load config: {e}")
         return
