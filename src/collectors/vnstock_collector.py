@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from vnstock import Listing, Quote, Trading, Company
 import logging
 import os
+import time
 
 class VNStockCollector:
     """
@@ -90,8 +91,14 @@ class VNStockCollector:
                 data['sector'] = ov['icb_name3'].iloc[0]
             elif 'icb_name4' in ov.columns:
                 data['sector'] = ov['icb_name4'].iloc[0]
-        except:
-            pass
+        except Exception as e:
+            error_msg = str(e)
+            if "Rate limit exceeded" in error_msg or "GIỚI HẠN API" in error_msg:
+                self.logger.warning(f"Rate limit hit for {ticker}. Waiting 20s...")
+                time.sleep(20)
+                return self.collect(ticker, days_back) # Retry once
+            self.logger.error(f"Failed to fetch data for {ticker}: {e}")
+            raise
             
         return data
     

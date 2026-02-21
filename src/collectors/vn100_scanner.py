@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from vnstock import Listing, Quote
 import logging
 import os
+import time
 
 class VN100LiquidityScanner:
     """
@@ -113,6 +114,12 @@ class VN100LiquidityScanner:
             return metrics
             
         except Exception as e:
+            error_msg = str(e)
+            if "Rate limit exceeded" in error_msg or "GIỚI HẠN API" in error_msg:
+                self.logger.warning(f"Rate limit hit for {ticker}. Waiting 20s...")
+                time.sleep(20)
+                return self.calculate_liquidity_metrics(ticker, lookback_days) # Retry once
+            
             self.logger.error(f"Failed to calculate liquidity for {ticker}: {e}")
             return None
     
@@ -133,7 +140,14 @@ class VN100LiquidityScanner:
         
         # Step 2: Calculate liquidity for each stock
         liquidity_results = []
-        for ticker in self.vn100_constituents:
+        for idx, ticker in enumerate(self.vn100_constituents, 1):
+            # Community limit is 60 req/min. Let's pace it at ~1.1s per request to be safe
+            if idx > 1:
+                time.sleep(1.1)
+                
+            if idx % 10 == 0:
+                self.logger.info(f"Scanning progress: {idx}/{len(self.vn100_constituents)} stocks...")
+                
             metrics = self.calculate_liquidity_metrics(ticker, lookback_days)
             if metrics is not None:
                 liquidity_results.append(metrics)

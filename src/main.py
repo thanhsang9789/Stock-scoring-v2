@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 import sys
+import time
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -60,6 +61,10 @@ def main():
         else:
             stock_list = config['stocks']['custom_list']
         logger.info(f"Selected {len(stock_list)} stocks: {', '.join(stock_list)}")
+        
+        # 2.1 Cooldown after heavy scanning to reset rate limit
+        logger.info("Taking a 15s cooldown to respect API limits before detailed analysis...")
+        time.sleep(15)
     except Exception as e:
         logger.error(f"Selection failed: {e}. Using fallback.")
         stock_list = config['stocks']['fallback_list'][:15]
@@ -80,6 +85,12 @@ def main():
     processed_stocks = []
     for idx, ticker in enumerate(stock_list, 1):
         try:
+            # Pace requests for Community API limit (60 req/min)
+            # Each stock analysis makes ~3 API calls. 15 stocks * 3 = 45 calls.
+            # 2.5s delay means 15 * 2.5 = 37.5s, which is safe.
+            if idx > 1:
+                time.sleep(2.5)
+                
             logger.info(f"[{idx}/{len(stock_list)}] Analyzing {ticker}...")
             
             # Collect data
