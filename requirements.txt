@@ -1,8 +1,8 @@
-vnstock
+vnstock3
 pandas
-jinja2
+numpy
 pyyaml
-requests
-aiohttp
+jinja2
 python-dotenv
-pytest
+streamlit
+plotly

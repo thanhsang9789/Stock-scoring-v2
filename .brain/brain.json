@@ -1,0 +1,49 @@
+{
+    "meta": {
+        "schema_version": "1.1.0",
+        "awf_version": "4.0.2"
+    },
+    "project": {
+        "name": "Stock Score V2",
+        "type": "Trading Analysis Framework",
+        "status": "Stable Beta"
+    },
+    "tech_stack": {
+        "language": "Python 3.x",
+        "core_libraries": [
+            "vnstock (v3.4.x)",
+            "pandas",
+            "jinja2",
+            "pyyaml",
+            "numpy"
+        ],
+        "infrastructure": "Local CLI / Scheduled Script"
+    },
+    "features": [
+        {
+            "name": "VN100 Liquidity Scanner",
+            "description": "Dynamically selects top 15 most liquid stocks from VN100 index"
+        },
+        {
+            "name": "4-Signal Scoring Engine",
+            "description": "Analyzes Volume Ratio, Smart Money (5D), Investor Type, and Price Momentum"
+        },
+        {
+            "name": "Trap Detection System",
+            "description": "Identifies retail FOMO and smart money distribution to avoid bull/bear traps"
+        },
+        {
+            "name": "HTML Report Generator",
+            "description": "Creates professional trading dashboards with color-coded signals"
+        },
+        {
+            "name": "Backtest Engine",
+            "description": "Simulates historical performance, calculates Win Rates and T+N returns to validate strategies"
+        }
+    ],
+    "knowledge_items": {
+        "pacing": "API limits for community version require ~1.1s delay per request in scanner and ~2.5s per stock in detail analysis.",
+        "encoding": "Windows environment requires UTF-8 reconfiguration for console output to avoid UnicodeEncodeError.",
+        "backtest_logic": "Simulation must avoid 'Look-ahead bias' by strictly using pre-signal data for scoring and post-signal data for performance measuring."
+    }
+}

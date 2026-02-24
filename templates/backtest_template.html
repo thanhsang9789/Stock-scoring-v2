@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Score V2 - Backtest Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --section-bg: #0f172a;
+            --border: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --green: #22c55e;
+            --blue: #3b82f6;
+            --purple: #a855f7;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding: 2rem;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .header { 
+            text-align: center; 
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--purple); }
+        .header .subtitle { font-size: 1.2rem; color: var(--text-secondary); }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .summary-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .summary-card h3 { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem; text-transform: uppercase; }
+        .summary-val { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .summary-sub { font-size: 0.85rem; color: var(--text-muted); }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border);
+        }
+        .stats-table th { background: rgba(0,0,0,0.2); text-align: left; padding: 1rem; color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; }
+        .stats-table td { padding: 1rem; border-bottom: 1px solid var(--border); }
+        .stats-table tr:last-child td { border-bottom: none; }
+
+        .win-rate-bar {
+            height: 8px;
+            background: #334155;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+            width: 100px;
+        }
+        .win-rate-fill { height: 100%; background: var(--green); }
+
+        .footer { text-align: center; margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted); }
+        
+        .green { color: var(--green); }
+        .red { color: var(--red); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Backtest Performance Report</h1>
+            <div class="subtitle">Stock Score V2 - Historical Simulation Analysis</div>
+        </div>
+
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h3>Total Signals</h3>
+                <div class="summary-val">{{ total_signals }}</div>
+                <div class="summary-sub">Over the last 60 days</div>
+            </div>
+            <div class="summary-card">
+                <h3>Avg Return (T+5)</h3>
+                <div class="summary-val green">+{{ avg_return_t5 }}%</div>
+                <div class="summary-sub">For Strong Entry signals</div>
+            </div>
+            <div class="summary-card">
+                <h3>Best Category</h3>
+                <div class="summary-val blue">{{ best_category }}</div>
+                <div class="summary-sub">Based on Win Rate</div>
+            </div>
+        </div>
+
+        <h2 style="margin-bottom: 1.5rem;">Performance by Category</h2>
+        <table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Count</th>
+                    <th>Win Rate (T+5)</th>
+                    <th>Avg Return (T+5)</th>
+                    <th>T+10 WR</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for label, m in summary.items() %}
+                <tr>
+                    <td><b>{{ label }}</b></td>
+                    <td>{{ m.count }}</td>
+                    <td>
+                        <span class="{{ 'green' if m.win_rate_t5 > 50 else 'red' }}">{{ m.win_rate_t5 }}%</span>
+                        <div class="win-rate-bar"><div class="win-rate-fill" style="width: {{ m.win_rate_t5 }}%"></div></div>
+                    </td>
+                    <td class="{{ 'green' if m.avg_ret_t5 > 0 else 'red' }}">{{ m.avg_ret_t5 }}%</td>
+                    <td>{{ m.win_rate_t10 }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="footer">
+            Generated on {{ timestamp }} | Stock Score V2 Backtest Engine
+        </div>
+    </div>
+</body>
+</html>
