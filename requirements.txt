@@ -4,6 +4,6 @@ numpy
 pyyaml
 jinja2
 python-dotenv
-streamlit
+streamlit>=1.40.0
 plotly
 altair<5
