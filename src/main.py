@@ -3,9 +3,9 @@ import os
 import sys
 import time
 
-# Add project root and local lib to path
+# Add project root and local dependencies to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib')))
+sys.path.append('/tmp/stock_pkgs')
 
 # Force UTF-8 encoding for standard output and error on Windows
 if sys.platform == 'win32':

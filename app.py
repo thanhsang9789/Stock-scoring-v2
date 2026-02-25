@@ -1,14 +1,15 @@
-import streamlit as st
-import pandas as pd
 import os
 import sys
+
+# Add project root and local lib to path BEFORE any other imports
+sys.path.append(os.getcwd())
+sys.path.append('/tmp/st_lib')
+
+import streamlit as st
+import pandas as pd
 import time
 from datetime import datetime
 from dotenv import load_dotenv
-
-# Add project root to path
-sys.path.append(os.getcwd())
-sys.path.append(os.path.join(os.getcwd(), 'lib'))
 
 from src.collectors.vn100_scanner import VN100LiquidityScanner
 from src.collectors.vnstock_collector import VNStockCollector

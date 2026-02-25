@@ -126,7 +126,7 @@ actions:
 
 # Report Settings
 report:
-  output_dir: "./reports_v2"
+  output_dir: "/tmp"
   filename_pattern: "Stock_Score_V2_{date}.html"
   title: "Stock Score V2"
   subtitle: "Beta Trading List - Deep Analysis"
