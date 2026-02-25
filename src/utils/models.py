@@ -35,6 +35,10 @@ class Stock:
     # Trap
     trap: any = None
     retail_status: str = "NEUTRAL"
+    
+    # Data Quality
+    data_confidence: float = 1.0
+    data_flags: List[str] = field(default_factory=list)
 
 @dataclass
 class ReportData:

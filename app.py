@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 # Add project root to path
 sys.path.append(os.getcwd())
+sys.path.append(os.path.join(os.getcwd(), 'lib'))
 
 from src.collectors.vn100_scanner import VN100LiquidityScanner
 from src.collectors.vnstock_collector import VNStockCollector

@@ -7,3 +7,9 @@ data/
 .DS_Store
 *.bak
 *.tmp
+lib/
+reports_v2/
+.agent/
+.streamlit/
+.brain/
+antigravity_skills_repo/

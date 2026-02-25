@@ -21,56 +21,56 @@ class ScoreCalculator:
         avg_vol_signal, 
         sm_signal, 
         investor_type_signal, 
-        price_signal
+        price_signal,
+        data_confidence: float = 1.0
     ) -> Tuple[int, float, str]:
         """
-        Calculate total score and multiplier
+        Calculate total score and multiplier with dynamic re-weighting
         
         Returns:
             Tuple of (raw_score, multiplier, label)
         """
         try:
-            # 1. Raw Score Calculation
-            raw_score = (
-                avg_vol_signal.score + 
-                sm_signal.score + 
-                investor_type_signal.score + 
-                price_signal.score
-            )
+            # 1. Raw Score Calculation with Dynamic Re-weighting
+            if data_confidence < 0.7:
+                # Re-weight to Price (50%) and Volume (50%)
+                raw_score = (avg_vol_signal.score * 2) + (price_signal.score * 2)
+                self.logger.info("Dynamic re-weighting applied due to low data confidence.")
+            else:
+                raw_score = (
+                    avg_vol_signal.score + 
+                    sm_signal.score + 
+                    investor_type_signal.score + 
+                    price_signal.score
+                )
             
             # 2. Conflict Multiplier logic
-            bullish_count = sum([
-                1 if avg_vol_signal.bullish else 0,
-                1 if sm_signal.bullish else 0,
-                1 if investor_type_signal.bullish else 0,
-                1 if price_signal.bullish else 0
-            ])
+            # Use only signals that have meaningful data
+            active_signals = [avg_vol_signal, price_signal]
+            if data_confidence >= 0.7:
+                active_signals.extend([sm_signal, investor_type_signal])
+            
+            bullish_count = sum([1 for s in active_signals if s.bullish])
+            total_active = len(active_signals)
             
             # Determine multiplier
-            if bullish_count == 4:
+            if bullish_count == total_active:
                 multiplier = self.multipliers['perfect']
-                label = "PERFECT 4/4"
+                label = f"PERFECT {bullish_count}/{total_active}"
             elif bullish_count == 0:
                 multiplier = self.multipliers['perfect']
-                label = "PERFECT 0/4"
-            elif bullish_count == 3:
+                label = f"PERFECT 0/{total_active}"
+            elif bullish_count == total_active - 1 or (total_active > 2 and bullish_count == 1):
                 multiplier = self.multipliers['strong']
-                label = "STRONG 3/4"
-            elif bullish_count == 1:
-                # Blueprint says 3/4 or 1/4 is STRONG 1.0, but also mentions 0.3 for conflict 1/4?
-                # Looking at multiplier table: 3/4 or 1/4 = 1.0x STRONG.
-                # But looking at another section: "When only 1 signal is bullish, use 0.3 multiplier".
-                # I'll follow the specific rule for 1/4 = 0.3.
-                multiplier = self.multipliers['conflict']
-                label = "CONFLICT 1/4"
-            elif bullish_count == 2:
+                label = f"STRONG {bullish_count}/{total_active}"
+            elif bullish_count / total_active == 0.5:
                 multiplier = self.multipliers['mixed']
-                label = "MIXED 2/4"
+                label = f"MIXED {bullish_count}/{total_active}"
             else:
-                multiplier = 1.0
-                label = "UNKNOWN"
+                multiplier = self.multipliers['conflict']
+                label = f"CONFLICT {bullish_count}/{total_active}"
                 
-            return raw_score, multiplier, label
+            return int(raw_score), multiplier, label
             
         except Exception as e:
             self.logger.error(f"Error calculating score: {e}")

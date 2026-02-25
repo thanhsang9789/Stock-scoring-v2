@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,43 +24,82 @@
             --purple: #a855f7;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: var(--bg); 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
             color: var(--text-primary);
             line-height: 1.5;
             padding: 2rem;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-        .header { 
-            text-align: center; 
+        .header {
+            text-align: center;
             margin-bottom: 3rem;
             padding-bottom: 2rem;
             border-bottom: 1px solid var(--border);
         }
-        .header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--purple); }
-        .header .subtitle { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
-        .header .info { font-size: 0.9rem; color: var(--text-muted); }
 
-        .stats { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 1.5rem; 
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--purple);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .header .info {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 3rem;
         }
-        .stat { 
-            background: var(--card-bg); 
-            padding: 1.5rem; 
-            border-radius: 12px; 
+
+        .stat {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
             text-align: center;
             border: 1px solid var(--border);
         }
-        .stat .num { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
-        .stat .lbl { font-size: 0.9rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
-        .stat .list { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem; }
+
+        .stat .num {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat .lbl {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat .list {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
 
         .legend {
             background: rgba(168, 85, 247, 0.05);
@@ -68,45 +108,92 @@
             padding: 1.5rem;
             margin-bottom: 3rem;
         }
-        .legend-title { font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-        .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .legend-section h4 { font-size: 0.9rem; margin-bottom: 0.75rem; color: var(--text-secondary); }
-        .legend-item { font-size: 0.85rem; margin-bottom: 0.25rem; color: var(--text-muted); }
 
-        .cards-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); 
-            gap: 2rem; 
+        .legend-title {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .stock-card { 
-            background: var(--card-bg); 
-            border-radius: 16px; 
-            border: 1px solid var(--border); 
+        .legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .legend-section h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-item {
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-muted);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
+        }
+
+        .stock-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
             overflow: hidden;
             transition: transform 0.2s;
         }
-        .stock-card:hover { transform: translateY(-4px); border-color: var(--text-muted); }
-        .stock-card.trap { border: 2px solid var(--dark-red); background: linear-gradient(135deg, #1e293b, #2a1515); }
 
-        .card-header { 
-            padding: 1.25rem 1.5rem; 
-            display: grid; 
+        .stock-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--text-muted);
+        }
+
+        .stock-card.trap {
+            border: 2px solid var(--dark-red);
+            background: linear-gradient(135deg, #1e293b, #2a1515);
+        }
+
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            display: grid;
             grid-template-columns: auto 1fr auto auto;
             align-items: center;
             gap: 1rem;
             border-bottom: 1px solid var(--border);
-            background: rgba(0,0,0,0.1);
+            background: rgba(0, 0, 0, 0.1);
         }
-        .card-rank { font-weight: 700; color: var(--text-muted); font-size: 0.9rem; }
-        .card-ticker { font-size: 1.5rem; font-weight: 700; color: #fff; }
-        .card-price { font-weight: 600; }
-        .card-score { font-size: 1.25rem; font-weight: 800; }
 
-        .card-action { 
-            padding: 0.75rem 1.5rem; 
-            display: flex; 
-            justify-content: space-between; 
+        .card-rank {
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .card-ticker {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .card-price {
+            font-weight: 600;
+        }
+
+        .card-score {
+            font-size: 1.25rem;
+            font-weight: 800;
+        }
+
+        .card-action {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
             font-size: 0.9rem;
             font-weight: 600;
@@ -119,37 +206,158 @@
             padding: 1rem 1.5rem;
             color: var(--dark-red);
         }
-        .trap-title { font-weight: 700; margin-bottom: 0.5rem; }
-        .trap-detail { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; margin-bottom: 0.5rem; }
-        .trap-msg { font-weight: 600; font-size: 0.85rem; }
 
-        .card-section { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); }
-        .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem; letter-spacing: 0.1em; }
+        .trap-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
 
-        .signal-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        .signal-table th { text-align: left; color: var(--text-muted); font-weight: 500; padding-bottom: 0.5rem; }
-        .signal-table td { padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .trap-detail {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
 
-        .score-calc { margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary); text-align: right; }
+        .trap-msg {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
 
-        .direction-grid { display: grid; gap: 0.75rem; }
-        .dir-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
-        .dir-label { color: var(--text-secondary); }
-        .dir-values { font-family: monospace; }
-        .dir-icon { font-weight: 600; }
+        .card-section {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
 
-        .card-footer { padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); background: rgba(0,0,0,0.05); }
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.1em;
+        }
 
-        .footer { text-align: center; margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted); }
+        .signal-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
 
-        .green { color: var(--green); }
-        .blue { color: var(--blue); }
-        .yellow { color: var(--yellow); }
-        .red { color: var(--red); }
-        .pos { color: var(--green); }
-        .neg { color: var(--red); }
+        .signal-table th {
+            text-align: left;
+            color: var(--text-muted);
+            font-weight: 500;
+            padding-bottom: 0.5rem;
+        }
+
+        .signal-table td {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .score-calc {
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        .direction-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .dir-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .dir-label {
+            color: var(--text-secondary);
+        }
+
+        .dir-values {
+            font-family: monospace;
+        }
+
+        .dir-icon {
+            font-weight: 600;
+        }
+
+        .card-footer {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .green {
+            color: var(--green);
+        }
+
+        .blue {
+            color: var(--blue);
+        }
+
+        .yellow {
+            color: var(--yellow);
+        }
+
+        .red {
+            color: var(--red);
+        }
+
+        .pos {
+            color: var(--green);
+        }
+
+        .neg {
+            color: var(--red);
+        }
+
+        /* Confidence Badges */
+        .badge {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-left: 0.5rem;
+        }
+
+        .badge-warning {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .badge-error {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .data-flag {
+            font-size: 0.7rem;
+            color: var(--orange);
+            opacity: 0.8;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -186,10 +394,13 @@
                 <div class="legend-section">
                     <h4>4-Signal Scoring</h4>
                     <div class="legend-items">
-                        <div class="legend-item"><b>AVG_VOL_RATIO:</b> Khối lượng hiện tại / TB 20 phiên (-15 đến +30)</div>
-                        <div class="legend-item"><b>SM_5D:</b> Tổng dòng tiền tự doanh + nước ngoài + tổ chức 5 phiên (-25 đến +25)</div>
+                        <div class="legend-item"><b>AVG_VOL_RATIO:</b> Khối lượng hiện tại / TB 20 phiên (-15 đến +30)
+                        </div>
+                        <div class="legend-item"><b>SM_5D:</b> Tổng dòng tiền tự doanh + nước ngoài + tổ chức 5 phiên
+                            (-25 đến +25)</div>
                         <div class="legend-item"><b>INVESTOR_TYPE:</b> Phân loại dòng tiền chủ đạo (+10 hoặc -15)</div>
-                        <div class="legend-item"><b>PRICE:</b> Điểm số theo % thay đổi giá trong phiên (-10 đến +10)</div>
+                        <div class="legend-item"><b>PRICE:</b> Điểm số theo % thay đổi giá trong phiên (-10 đến +10)
+                        </div>
                     </div>
                 </div>
                 <div class="legend-section">
@@ -197,86 +408,131 @@
                     <div class="legend-items">
                         <div class="legend-item">1. AVG_VOL_RATIO ≥ 1.0 (Khối lượng duy trì cao)</div>
                         <div class="legend-item">2. SM_5D < -10B (Dòng tiền thông minh đang rút ra)</div>
-                        <div class="legend-item">3. RETAIL_5D > +5B (Cá nhân FOMO mua vào)</div>
-                        <div class="legend-item">→ Khi đủ 3/3 đ/k: TRAP detected, Final Score = 0.</div>
+                                <div class="legend-item">3. RETAIL_5D > +5B (Cá nhân FOMO mua vào)</div>
+                                <div class="legend-item">→ Khi đủ 3/3 đ/k: TRAP detected, Final Score = 0.</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="cards-grid">
-            {% for stock in stocks %}
-            <div class="stock-card {{ 'trap' if stock.trap.is_trap else '' }}">
-                <div class="card-header">
-                    <div class="card-rank">#{{ stock.rank }}</div>
-                    <div class="card-ticker">{{ stock.ticker }}</div>
-                    <div class="card-price">{{ "{:,.0f}".format(stock.price) }}</div>
-                    <div class="card-score" style="color: {{ stock.color }}">{{ stock.final_score }}</div>
-                </div>
-
-                <div class="card-action" style="background: {{ stock.color }}15; border-left: 4px solid {{ stock.color }}">
-                    <span>{{ stock.action }}</span>
-                    <span>Conf: {{ stock.confidence }}%</span>
-                </div>
-
-                {% if stock.trap.is_trap %}
-                <div class="trap-alert">
-                    <div class="trap-title">🚨 TRAP DETECTED! ({{ stock.trap.count }}/3 conditions met)</div>
-                    <div class="trap-detail">
-                        <span>VOL ≥ 1.0: <b>{{ '✓' if stock.trap.conditions[0].met else '✗' }}</b> ({{ stock.trap.conditions[0].value }})</span>
-                        <span>SM < -10B: <b>{{ '✓' if stock.trap.conditions[1].met else '✗' }}</b> ({{ stock.trap.conditions[1].value }}B)</span>
-                        <span>RETAIL > 5B: <b>{{ '✓' if stock.trap.conditions[2].met else '✗' }}</b> ({{ stock.trap.conditions[2].value }}B)</span>
-                    </div>
-                    <div class="trap-msg">{{ stock.trap.message }}</div>
-                </div>
-                {% endif %}
-
-                <div class="card-section">
-                    <div class="section-title">📊 4-Signal Breakdown</div>
-                    <table class="signal-table">
-                        <tr><th>Signal</th><th>Value</th><th>State</th><th>Score</th></tr>
-                        <tr><td>VOL_RT</td><td>{{ stock.avg_vol_ratio_signal.value }}</td><td>{{ stock.avg_vol_ratio_signal.state }}</td><td class="{{ 'green' if stock.avg_vol_ratio_signal.score > 0 else 'red' if stock.avg_vol_ratio_signal.score < 0 else '' }}">{{ stock.avg_vol_ratio_signal.score }}</td></tr>
-                        <tr><td>SM_5D</td><td>{{ stock.smart_money_signal.value }}B</td><td>{{ stock.smart_money_signal.state }}</td><td class="{{ 'green' if stock.smart_money_signal.score > 0 else 'red' if stock.smart_money_signal.score < 0 else '' }}">{{ stock.smart_money_signal.score }}</td></tr>
-                        <tr><td>INV_TY</td><td>-</td><td>{{ stock.investor_type_signal.state }}</td><td class="green">{{ stock.investor_type_signal.score }}</td></tr>
-                        <tr><td>PRICE</td><td>{{ stock.price_signal.value }}%</td><td>-</td><td class="{{ 'green' if stock.price_signal.score > 0 else 'red' if stock.price_signal.score < 0 else '' }}">{{ stock.price_signal.score }}</td></tr>
-                    </table>
-                    <div class="score-calc">
-                        Raw: <b>{{ stock.raw_score }}</b> × Mult: <b>{{ stock.multiplier }}</b> ({{ stock.multiplier_label }}) = <b>{{ stock.final_score }}</b>
-                    </div>
-                </div>
-
-                <div class="card-section">
-                    <div class="section-title">📈 Direction Tracking</div>
-                    <div class="direction-grid">
-                        <div class="dir-item">
-                            <span class="dir-label">Volume Pattern</span>
-                            <span class="dir-values">{{ stock.avg_vol_ratio_signal.history | join(' → ') }}</span>
-                            <span class="dir-icon">{{ stock.avg_vol_ratio_signal.pattern }}</span>
+            <div class="cards-grid">
+                {% for stock in stocks %}
+                <div class="stock-card {{ 'trap' if stock.trap.is_trap else '' }}">
+                    <div class="card-header">
+                        <div class="card-rank">#{{ stock.rank }}</div>
+                        <div class="card-ticker">
+                            {{ stock.ticker }}
+                            {% if stock.data_confidence < 0.7 %} <span class="badge badge-error">Low Data
+                                confidence</span>
+                                {% elif stock.data_confidence < 1.0 %} <span class="badge badge-warning">Partial
+                                    Data</span>
+                                    {% endif %}
                         </div>
-                        <div class="dir-item">
-                            <span class="dir-label">Smart Money</span>
-                            <span class="dir-values">1D: {{ stock.smart_money_signal.flows['1D'] }}B | 5D: {{ stock.smart_money_signal.value }}B</span>
-                            <span class="dir-icon">{{ stock.smart_money_signal.direction }}</span>
+                        <div class="card-price">{{ "{:,.0f}".format(stock.price) }}</div>
+                        <div class="card-score" style="color: {{ stock.color }}">{{ stock.final_score }}</div>
+                    </div>
+
+                    <div class="card-action"
+                        style="background: {{ stock.color }}15; border-left: 4px solid {{ stock.color }}">
+                        <span>{{ stock.action }}</span>
+                        <span>Conf: {{ stock.confidence }}%</span>
+                    </div>
+
+                    {% if stock.trap.is_trap %}
+                    <div class="trap-alert">
+                        <div class="trap-title">🚨 TRAP DETECTED! ({{ stock.trap.count }}/3 conditions met)</div>
+                        <div class="trap-detail">
+                            <span>VOL ≥ 1.0: <b>{{ '✓' if stock.trap.conditions[0].met else '✗' }}</b> ({{
+                                stock.trap.conditions[0].value }})</span>
+                            <span>SM < -10B: <b>{{ '✓' if stock.trap.conditions[1].met else '✗' }}</b> ({{
+                                    stock.trap.conditions[1].value }}B)</span>
+                            <span>RETAIL > 5B: <b>{{ '✓' if stock.trap.conditions[2].met else '✗' }}</b> ({{
+                                stock.trap.conditions[2].value }}B)</span>
                         </div>
-                        <div class="dir-item">
-                            <span class="dir-label">Retail Flow Status</span>
-                            <span class="dir-values"></span>
-                            <span class="dir-icon">{{ stock.retail_status }}</span>
+                        <div class="trap-msg">{{ stock.trap.message }}</div>
+                    </div>
+                    {% endif %}
+
+                    <div class="card-section">
+                        <div class="section-title">📊 4-Signal Breakdown</div>
+                        <table class="signal-table">
+                            <tr>
+                                <th>Signal</th>
+                                <th>Value</th>
+                                <th>State</th>
+                                <th>Score</th>
+                            </tr>
+                            <tr>
+                                <td>VOL_RT</td>
+                                <td>{{ stock.avg_vol_ratio_signal.value }}</td>
+                                <td>{{ stock.avg_vol_ratio_signal.state }}</td>
+                                <td
+                                    class="{{ 'green' if stock.avg_vol_ratio_signal.score > 0 else 'red' if stock.avg_vol_ratio_signal.score < 0 else '' }}">
+                                    {{ stock.avg_vol_ratio_signal.score }}</td>
+                            </tr>
+                            <tr>
+                                <td>SM_5D</td>
+                                <td>{{ stock.smart_money_signal.value }}B</td>
+                                <td>{{ stock.smart_money_signal.state }}</td>
+                                <td
+                                    class="{{ 'green' if stock.smart_money_signal.score > 0 else 'red' if stock.smart_money_signal.score < 0 else '' }}">
+                                    {{ stock.smart_money_signal.score }}</td>
+                            </tr>
+                            <tr>
+                                <td>INV_TY</td>
+                                <td>-</td>
+                                <td>{{ stock.investor_type_signal.state }}</td>
+                                <td class="green">{{ stock.investor_type_signal.score }}</td>
+                            </tr>
+                            <tr>
+                                <td>PRICE</td>
+                                <td>{{ stock.price_signal.value }}%</td>
+                                <td>-</td>
+                                <td
+                                    class="{{ 'green' if stock.price_signal.score > 0 else 'red' if stock.price_signal.score < 0 else '' }}">
+                                    {{ stock.price_signal.score }}</td>
+                            </tr>
+                        </table>
+                        <div class="score-calc">
+                            Raw: <b>{{ stock.raw_score }}</b> × Mult: <b>{{ stock.multiplier }}</b> ({{
+                            stock.multiplier_label }}) = <b>{{ stock.final_score }}</b>
                         </div>
                     </div>
-                </div>
 
-                <div class="card-footer">
-                    <span>{{ stock.sector }}</span>
-                    <span>TICKER: {{ stock.ticker }}</span>
+                    <div class="card-section">
+                        <div class="section-title">📈 Direction Tracking</div>
+                        <div class="direction-grid">
+                            <div class="dir-item">
+                                <span class="dir-label">Volume Pattern</span>
+                                <span class="dir-values">{{ stock.avg_vol_ratio_signal.history | join(' → ') }}</span>
+                                <span class="dir-icon">{{ stock.avg_vol_ratio_signal.pattern }}</span>
+                            </div>
+                            <div class="dir-item">
+                                <span class="dir-label">Smart Money</span>
+                                <span class="dir-values">1D: {{ stock.smart_money_signal.flows['1D'] }}B | 5D: {{
+                                    stock.smart_money_signal.value }}B</span>
+                                <span class="dir-icon">{{ stock.smart_money_signal.direction }}</span>
+                            </div>
+                            <div class="dir-item">
+                                <span class="dir-label">Retail Flow Status</span>
+                                <span class="dir-values"></span>
+                                <span class="dir-icon">{{ stock.retail_status }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <span>{{ stock.sector }}</span>
+                        <span>TICKER: {{ stock.ticker }}</span>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
 
-        <div class="footer">
-            {{ footer }}
+            <div class="footer">
+                {{ footer }}
+            </div>
         </div>
-    </div>
 </body>
+
 </html>

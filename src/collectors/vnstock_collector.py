@@ -33,19 +33,29 @@ class VNStockCollector:
             days_back: Number of days to collect
             
         Returns:
-            Dict containing ohlcv, flows, and metadata
+            Dict containing ohlcv, flows, metadata and confidence metrics
         """
         data = {
             'ticker': ticker,
             'ohlcv': None,
             'flows': None,
-            'sector': 'Unknown'
+            'sector': 'Unknown',
+            'data_confidence': 1.0,
+            'data_flags': []
         }
         
         # 1. Get OHLCV Data
         try:
             q = Quote(symbol=ticker, source=self.source, show_log=False)
-            ohlcv_df = q.history(count_back=days_back + 10, interval='1D')
+            
+            # Calculate start/end dates to avoid count_back TypeError
+            end_date = datetime.now()
+            start_date = end_date - timedelta(days=days_back + 15)
+            
+            start_str = start_date.strftime('%Y-%m-%d')
+            end_str = end_date.strftime('%Y-%m-%d')
+            
+            ohlcv_df = q.history(start=start_str, end=end_str, interval='1D')
             
             if ohlcv_df is not None and not ohlcv_df.empty:
                 data['ohlcv'] = ohlcv_df.tail(days_back).reset_index(drop=True)
@@ -65,40 +75,42 @@ class VNStockCollector:
             
         # 2. Get Investor Flow Data
         try:
-            # v3.4.x: financial_flow is not available. 
-            # We try to get foreign data from company trading stats if available
+            # v3.4.x: We check if we can get ANY real flow data
             c = Company(symbol=ticker, source=self.source, show_log=False)
-            stats = c.trading_stats()
             
-            # Note: v3.4.x might not provide historical daily flows for Prop/Inst easily via open API
-            # For now, we use a zero-filled DataFrame and fill Foreign if we have it
+            # Since historical pro/inst flows are restricted in open API, 
+            # we rely on placeholders but drop confidence.
             flows = self._create_zero_flows(len(data['ohlcv']))
             
-            # If we have current foreign volume, we could potentially estimate, 
-            # but historical daily flow is what's needed for signals.
-            # Since it's missing, we'll use placeholder data with a warning.
-            self.logger.warning(f"Historical investor flows (Prop/Inst) are not supported in vnstock v3.4.x open API. Using placeholders.")
+            # Check for foreign data consistency (sometimes available even if pro/inst isn't)
+            # In a real environment, we'd try multiple sources here.
+            
+            self.logger.warning(f"Historical investor flows are restricted. Using placeholders for {ticker}.")
             data['flows'] = flows
+            data['data_confidence'] -= 0.5 # Drop confidence by 50% if flows are missing
+            data['data_flags'].append("MISSING_FLOW_DATA")
             
         except Exception as e:
             self.logger.warning(f"Flow data error for {ticker}: {e}. using zero flows")
             data['flows'] = self._create_zero_flows(len(data['ohlcv']))
+            data['data_confidence'] = 0.5
+            data['data_flags'].append("FLOW_DATA_ERROR")
             
         # 3. Get Sector Info
         try:
             ov = c.overview()
-            if 'icb_name3' in ov.columns:
-                data['sector'] = ov['icb_name3'].iloc[0]
-            elif 'icb_name4' in ov.columns:
-                data['sector'] = ov['icb_name4'].iloc[0]
+            if ov is not None and not ov.empty:
+                if 'icb_name3' in ov.columns:
+                    data['sector'] = ov['icb_name3'].iloc[0]
+                elif 'icb_name4' in ov.columns:
+                    data['sector'] = ov['icb_name4'].iloc[0]
         except Exception as e:
             error_msg = str(e)
             if "Rate limit exceeded" in error_msg or "GIỚI HẠN API" in error_msg:
                 self.logger.warning(f"Rate limit hit for {ticker}. Waiting 20s...")
                 time.sleep(20)
                 return self.collect(ticker, days_back) # Retry once
-            self.logger.error(f"Failed to fetch data for {ticker}: {e}")
-            raise
+            self.logger.debug(f"Non-critical sector info error for {ticker}: {e}")
             
         return data
     

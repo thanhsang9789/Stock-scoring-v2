@@ -86,7 +86,15 @@ class VN100LiquidityScanner:
         try:
             # v3.4.x API way
             q = Quote(symbol=ticker, source=self.source, show_log=False)
-            df = q.history(count_back=lookback_days + 5, interval='1D')
+            
+            # Calculate start/end dates to avoid count_back TypeError in some versions
+            end_date = datetime.now()
+            start_date = end_date - timedelta(days=lookback_days + 15)
+            
+            start_str = start_date.strftime('%Y-%m-%d')
+            end_str = end_date.strftime('%Y-%m-%d')
+            
+            df = q.history(start=start_str, end=end_str, interval='1D')
             
             # Ensure we have data
             if df is None or len(df) == 0:

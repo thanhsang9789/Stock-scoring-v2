@@ -3,8 +3,9 @@ import os
 import sys
 import time
 
-# Add project root to path
+# Add project root and local lib to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib')))
 
 # Force UTF-8 encoding for standard output and error on Windows
 if sys.platform == 'win32':
@@ -95,6 +96,8 @@ def main():
             
             # Collect data
             data = collector.collect(ticker)
+            data_confidence = data.get('data_confidence', 1.0)
+            data_flags = data.get('data_flags', [])
             
             # Calculate signals
             avg_vol_signal = avg_vol_calc.calculate(data)
@@ -104,7 +107,8 @@ def main():
             
             # Scoring
             raw_score, multiplier, multiplier_label = scorer.calculate(
-                avg_vol_signal, sm_signal, investor_type_signal, price_signal
+                avg_vol_signal, sm_signal, investor_type_signal, price_signal,
+                data_confidence=data_confidence
             )
             final_score = round(raw_score * multiplier, 1)
             
@@ -136,7 +140,9 @@ def main():
                 confidence=action_data['confidence'],
                 color=action_data['color'],
                 trap=trap,
-                retail_status=sm_calc.get_retail_status(data)
+                retail_status=sm_calc.get_retail_status(data),
+                data_confidence=data_confidence,
+                data_flags=data_flags
             )
             processed_stocks.append(stock)
             
